@@ -64,7 +64,7 @@ if page == "PBMZI (2018-2023)":
         st.pyplot(fig2)
 
     with col3:
-        fig3, ax3 = plt.subplots()
+        fig3_1, ax3 = plt.subplots()
         ax3.scatter([1, 2, 3], [6, 2, 4])
         st.pyplot(fig3)
 
@@ -72,17 +72,17 @@ if page == "PBMZI (2018-2023)":
     col4, col5, col6 = st.columns(3)
 
     with col4:
-        fig4, ax4 = plt.subplots()
+        fig3_2, ax4 = plt.subplots()
         ax4.hist([1, 1, 2, 3, 3, 3, 4])
         st.pyplot(fig4)
 
     with col5:
-        fig5, ax5 = plt.subplots()
+        fig4, ax5 = plt.subplots()
         ax5.plot([1, 2, 3], [3, 2, 1])
         st.pyplot(fig5)
 
     with col6:
-        fig6, ax6 = plt.subplots()
+        fig5, ax6 = plt.subplots()
         ax6.boxplot([1, 2, 3, 4, 5])
         st.pyplot(fig6)
 
