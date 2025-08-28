@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 import networkx as nx
-from sample_data import generate_pbmzi_data
+
 
 # Page configuration
 st.set_page_config(
@@ -14,7 +14,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
+cleaned_PBMZI = load_data()
 # Custom CSS for better styling
 st.markdown("""
 <style>
