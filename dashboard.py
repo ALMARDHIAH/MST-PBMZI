@@ -141,26 +141,6 @@ if page == "PBMZI (2018-2023)":
                      title="Correlation Matrix of PBMZI Companies' Log Return")
     st.plotly_chart(fig4, use_container_width=True)
 
-    # 5. Correlation Distribution
-    st.subheader("Distribution of Pairwise Correlations (PBMZI Log Returns)")
-    mask = np.tril(np.ones(corr_matrix.shape), k=-1).astype(bool)
-    corr_values = corr_matrix.where(mask).stack().values
-    bins = [-1.0, -0.7, -0.4, 0, 0.4, 0.7, 1.0]
-    labels = [
-        'Highly Strong Negative [-1.0, -0.7)',
-        'Strong Negative [-0.7, -0.4)',
-        'Weak Negative [-0.4, 0)',
-        'Weak Positive [0, 0.4)',
-        'Strong Positive [0.4, 0.7)',
-        'Highly Strong Positive [0.7, 1.0]'
-    ]
-    categories = pd.cut(corr_values, bins=bins, labels=labels, right=False)
-    dist = categories.value_counts().sort_index()
-    fig5 = px.bar(x=dist.index, y=dist.values, text=dist.values,
-                  labels={"x": "Correlation Category", "y": "Number of Pairs"},
-                  title="Distribution of Pairwise Correlations")
-    st.plotly_chart(fig5, use_container_width=True)
-
 
 # =========================
 # PAGE 2 – MST Overview
