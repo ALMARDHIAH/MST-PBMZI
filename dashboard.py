@@ -67,9 +67,21 @@ if page == "PBMZI (2018-2023)":
     # 2. Return Movement
     st.subheader("Logarithmic Return Movement")
     log_return = filtered_data[selected_companies].apply(lambda col: np.log(col / col.shift(1)))
-    fig2 = px.line(x=filtered_data['Date'], y=log_return[selected_companies],
-                   labels={"x": "Date", "value": "Log Return"},
-                   title=f"Logarithmic Return Movement of PLCs ({min(selected_years)}–{max(selected_years)})")
+    import plotly.express as px
+
+# Prepare data in long form
+df_long = log_return[selected_companies].copy()
+df_long["Date"] = filtered_data["Date"]
+df_long = df_long.melt(id_vars="Date", var_name="Company", value_name="Log Return")
+
+# Plot
+fig2 = px.line(
+    df_long,
+    x="Date",
+    y="Log Return",
+    color="Company",  # separate line per company
+    title=f"Logarithmic Return Movement of PLCs ({min(selected_years)}–{max(selected_years)})"
+)
     st.plotly_chart(fig2, use_container_width=True)
 
     # 3. Volatility
