@@ -111,7 +111,7 @@ if page == "PBMZI (2018-2023)":
     # 4. Correlation Matrix
     st.subheader("Correlation Matrix of Log Return")
     corr_matrix = log_return.corr(method='pearson')
-    fig4 = px.imshow(corr_matrix, text_auto=True, color_continuous_scale="RdBu_r",
+    fig4 = px.imshow(corr_matrix, text_auto=True, color_continuous_scale="coolwarm_r",
                      zmin=-1, zmax=1,
                      labels=dict(color="Correlation"),
                      title="Correlation Matrix of PBMZI Companies' Log Return")
