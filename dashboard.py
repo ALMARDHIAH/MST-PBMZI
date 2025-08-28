@@ -149,26 +149,47 @@ if page == "PBMZI (2018-2023)":
                      title="Correlation Matrix of PBMZI Companies' Log Return")
     st.plotly_chart(fig4, use_container_width=True)
 
-    # 5. Correlation Distribution
-    st.subheader("Distribution of Pairwise Correlations (PBMZI Log Returns)")
-    mask = np.tril(np.ones(corr_matrix.shape), k=-1).astype(bool)
-    corr_values = corr_matrix.where(mask).stack().values
-    bins = [-1.0, -0.7, -0.4, 0, 0.4, 0.7, 1.0]
-    labels = [
-        'Highly Strong Negative [-1.0, -0.7)',
-        'Strong Negative [-0.7, -0.4)',
-        'Weak Negative [-0.4, 0)',
-        'Weak Positive [0, 0.4)',
-        'Strong Positive [0.4, 0.7)',
-        'Highly Strong Positive [0.7, 1.0]'
-    ]
-    categories = pd.cut(corr_values, bins=bins, labels=labels, right=False)
-    dist = categories.value_counts().sort_index()
-    fig5 = px.bar(x=dist.index, y=dist.values, text=dist.values,
-                  labels={"x": "Correlation Category", "y": "Number of Pairs"},
-                  title="Distribution of Pairwise Correlations")
-    st.plotly_chart(fig5, use_container_width=True)
+    # 5. MDD & Maximum Return
+    st.subheader("Maximum Drawdown and Maximum Return")
+    # Contoh kiraan Maximum Return & Maximum Drawdown untuk setiap syarikat
+    drawdown_list = []
 
+    for company in cleaned_PBMZI.columns.drop("Date"):
+        prices = cleaned_PBMZI[company].dropna()
+        returns = prices.pct_change().dropna()
+    
+        cum_return = (1 + returns).cumprod()
+        roll_max = cum_return.cummax()
+        drawdown = (cum_return - roll_max) / roll_max
+
+        max_return = cum_return.max() - 1
+        max_drawdown = drawdown.min()
+
+        drawdown_list.append({
+            "COMPANY": company,
+            "MAX_RETURN": max_return,
+            "MAX_DRAWDOWN": max_drawdown
+        })
+
+    drawdown_df = pd.DataFrame(drawdown_list)
+    fig5 = px.scatter(
+    drawdown_df,
+    x="MAX_DRAWDOWN",
+    y="MAX_RETURN",
+    text="COMPANY",  # Show company labels
+    color="COMPANY",  # Different color per company
+    size_max=20,
+    )
+
+    fig5.update_traces(textposition="top center")
+    fig5.update_layout(
+        xaxis_title="Maximum Drawdown",
+        yaxis_title="Maximum Return",
+        legend_title="Company",
+        template="plotly_white",
+    )
+    fig5=px.imshow()
+    st.plotly_chart(fig5, use_container_width=True)
 
 # =========================
 # PAGE 2 – MST Overview
