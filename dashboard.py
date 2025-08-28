@@ -172,7 +172,7 @@ if page == "PBMZI (2018-2023)":
     drawdown_df = pd.DataFrame({
         'COMPANY': filtered_data.columns[1:],  # skip 'Date'
         'MAX DRAWDOWN': filtered_data.drop(columns=['Date']).apply(max_drawdown),
-        'MAX RETURN': log_return_df.drop(columns=['Date']).apply(max_return)
+        'MAX RETURN': log_return.drop(columns=['Date']).apply(max_return)
     })
 
     fig5 = px.scatter(
