@@ -187,7 +187,7 @@ if page == "PBMZI (2018-2023)":
         legend_title="Company",
         template="plotly_white",
     )
-    fig5=px.imshow()
+
     st.plotly_chart(fig5, use_container_width=True)
 
 # =========================
