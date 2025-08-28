@@ -87,9 +87,12 @@ if page == "PBMZI (2018-2023)":
     # 3. Volatility
     st.subheader("60-Day Rolling Volatility")
     volatility_return = log_return.rolling(window=60).std()
-    fig3 = px.line(x=filtered_data['Date'], y=volatility_return[selected_companies],
-                   labels={"x": "Date", "value": "60-Day Rolling Volatility"},
-                   title="60-Day Rolling Volatility Based on PBMZI Logarithmic Return")
+    fig3 = px.line(
+    x=filtered_data['Date'],
+    y=volatility_return[selected_companies],
+    labels={"x": "Date", "value": "60-Day Rolling Volatility"},
+    title="60-Day Rolling Volatility Based on PBMZI Logarithmic Return"
+    )
     st.plotly_chart(fig3, use_container_width=True)
 
     # 4. Correlation Matrix
