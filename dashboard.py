@@ -14,7 +14,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-cleaned_PBMZI = load_data()
+
 # Custom CSS for better styling
 st.markdown("""
 <style>
@@ -35,7 +35,7 @@ st.markdown("""
 
 @st.cache_data
 def load_data():
-    """Load and cache the PBMZI data"""
+    cleaned_PBMZI = load_data()
     return generate_pbmzi_data()
 
 def calculate_log_returns(df):
