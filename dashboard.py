@@ -50,42 +50,6 @@ page = st.sidebar.selectbox(
 if page == "PBMZI (2018-2023)":
     st.title("PBMZI (2018-2023) Dashboard")
 
-    # ---- Row 1 ----
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        fig1, ax1 = plt.subplots()
-        ax1.plot([1, 2, 3], [4, 5, 6])
-        st.pyplot(fig1)
-
-    with col2:
-        fig2, ax2 = plt.subplots()
-        ax2.bar([1, 2, 3], [3, 2, 5])
-        st.pyplot(fig2)
-
-    with col3:
-        fig3_1, ax3 = plt.subplots()
-        ax3.scatter([1, 2, 3], [6, 2, 4])
-        st.pyplot(fig3)
-
-    # ---- Row 2 ----
-    col4, col5, col6 = st.columns(3)
-
-    with col4:
-        fig3_2, ax4 = plt.subplots()
-        ax4.hist([1, 1, 2, 3, 3, 3, 4])
-        st.pyplot(fig4)
-
-    with col5:
-        fig4, ax5 = plt.subplots()
-        ax5.plot([1, 2, 3], [3, 2, 1])
-        st.pyplot(fig5)
-
-    with col6:
-        fig5, ax6 = plt.subplots()
-        ax6.boxplot([1, 2, 3, 4, 5])
-        st.pyplot(fig6)
-
 elif page == "MST Overview":
     selected_years = st.sidebar.multiselect(
         "Select year(s):", available_years, default=available_years
