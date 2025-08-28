@@ -151,36 +151,39 @@ if page == "PBMZI (2018-2023)":
 
     # 5. MDD & Maximum Return
     st.subheader("Maximum Drawdown and Maximum Return")
-    # Contoh kiraan Maximum Return & Maximum Drawdown untuk setiap syarikat
-    drawdown_list = []
-
-    for company in cleaned_PBMZI.columns.drop("Date"):
-        prices = cleaned_PBMZI[company].dropna()
-        returns = prices.pct_change().dropna()
     
-        cum_return = (1 + returns).cumprod()
-        roll_max = cum_return.cummax()
-        drawdown = (cum_return - roll_max) / roll_max
+    # Function to compute Maximum Drawdown from prices
+    def max_drawdown(series):
+        peak = series.expanding(min_periods=1).max()
+        drawdown = (series - peak) / peak
+        return drawdown.min()
 
-        max_return = cum_return.max() - 1
-        max_drawdown = drawdown.min()
+    # Function to compute Maximum Return using log returns
+    def max_return(log_series):
+        # cumulative log return = sum of log returns
+        cumulative = log_series.cumsum().dropna()
+        # convert back to price ratio: exp(log return)
+        return np.exp(cumulative.max()) - 1
 
-        drawdown_list.append({
-            "COMPANY": company,
-            "MAX_RETURN": max_return,
-            "MAX_DRAWDOWN": max_drawdown
-        })
+    for company in filtered_data.columns.drop("Date"):
+        prices = filtered_data[company].dropna()
+        returns = prices.pct_change().dropna()
+  
+    drawdown_df = pd.DataFrame({
+        'COMPANY': filtered_data.columns[1:],  # skip 'Date'
+        'MAX DRAWDOWN': filtered_data.drop(columns=['Date']).apply(max_drawdown),
+        'MAX RETURN': log_return_df.drop(columns=['Date']).apply(max_return)
+    })
 
-    drawdown_df = pd.DataFrame(drawdown_list)
     fig5 = px.scatter(
-    drawdown_df,
-    x="MAX_DRAWDOWN",
-    y="MAX_RETURN",
-    text="COMPANY",  # Show company labels
-    color="COMPANY",  # Different color per company
-    size_max=20,
-    )
-
+        drawdown_df,
+        x="MAX_DRAWDOWN",
+        y="MAX_RETURN",
+        text="COMPANY",  # Show company labels
+        color="COMPANY",  # Different color per company
+        size_max=20,
+        )
+    
     fig5.update_traces(textposition="top center")
     fig5.update_layout(
         xaxis_title="Maximum Drawdown",
