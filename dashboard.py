@@ -173,8 +173,8 @@ if page == "PBMZI (2018-2023)":
 
     fig5 = px.scatter(
         drawdown_df,
-        x=drawdown_df['MAX DRAWDOWN'],
-        y=drawdown_df['MAX RETURN'],
+        x='MAX DRAWDOWN',
+        y='MAX RETURN',
         text="COMPANY",  # Show company labels
         color="COMPANY",  # Different color per company
         size_max=20,
