@@ -165,12 +165,8 @@ if page == "PBMZI (2018-2023)":
         # convert back to price ratio: exp(log return)
         return np.exp(cumulative.max()) - 1
 
-    for company in filtered_data.columns.drop("Date"):
-        prices = filtered_data[company].dropna()
-        returns = prices.pct_change().dropna()
-  
     drawdown_df = pd.DataFrame({
-        'COMPANY': filtered_data.columns[1:],  # skip 'Date'
+        'COMPANY': filtered_data[selected_companies],  # skip 'Date'
         'MAX DRAWDOWN': filtered_data[selected_companies].apply(max_drawdown),
         'MAX RETURN': log_return[selected_companies].apply(max_return)
     })
