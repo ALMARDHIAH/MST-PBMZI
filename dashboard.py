@@ -83,8 +83,32 @@ if page == "PBMZI (2018-2023)":
         title=f"Logarithmic Return Movement of PLCs ({min(selected_years)}–{max(selected_years)})"
     )
     st.plotly_chart(fig2, use_container_width=True)
+    
+    # 3.1 Volatility 30 day rolling
+    st.subheader("30-Day Rolling Volatility")
+    volatility_return = log_return.rolling(window=30).std()
+    # Convert wide → long
+    df_vol_long = volatility_return[selected_companies].copy()
+    df_vol_long["Date"] = filtered_data["Date"]
 
-    # 3. Volatility
+    df_vol_long = df_vol_long.melt(
+        id_vars="Date",
+        var_name="Company",
+        value_name="30-Day Rolling Volatility"
+    )
+
+    # Plot
+    fig3_1 = px.line(
+        df_vol_long,
+        x="Date",
+        y="30-Day Rolling Volatility",
+        color="Company",
+        title="30-Day Rolling Volatility Based on PBMZI Logarithmic Return"
+    )
+
+    st.plotly_chart(fig3_1, use_container_width=True)
+    
+    # 3.2 Volatility 60 day rolling
     st.subheader("60-Day Rolling Volatility")
     volatility_return = log_return.rolling(window=60).std()
     # Convert wide → long
@@ -98,7 +122,7 @@ if page == "PBMZI (2018-2023)":
     )
 
     # Plot
-    fig3 = px.line(
+    fig3_2 = px.line(
         df_vol_long,
         x="Date",
         y="60-Day Rolling Volatility",
@@ -106,12 +130,12 @@ if page == "PBMZI (2018-2023)":
         title="60-Day Rolling Volatility Based on PBMZI Logarithmic Return"
     )
 
-    st.plotly_chart(fig3, use_container_width=True)
+    st.plotly_chart(fig3_2, use_container_width=True)
 
     # 4. Correlation Matrix
     st.subheader("Correlation Matrix of Log Return")
     corr_matrix = log_return.corr(method='pearson')
-    fig4 = px.imshow(corr_matrix, text_auto=True, color_continuous_scale="coolwarm_r",
+    fig4 = px.imshow(corr_matrix, text_auto=True, color_continuous_scale="RdBu",
                      zmin=-1, zmax=1,
                      labels=dict(color="Correlation"),
                      title="Correlation Matrix of PBMZI Companies' Log Return")
