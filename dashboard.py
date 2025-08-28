@@ -166,7 +166,7 @@ if page == "PBMZI (2018-2023)":
         return np.exp(cumulative.max()) - 1
 
     drawdown_df = pd.DataFrame({
-        'COMPANY': filtered_data[selected_companies],  # skip 'Date'
+        'COMPANY': selected_companies, 
         'MAX DRAWDOWN': filtered_data[selected_companies].apply(max_drawdown),
         'MAX RETURN': log_return[selected_companies].apply(max_return)
     })
