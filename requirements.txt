@@ -6,3 +6,5 @@ seaborn
 openpyxl
 networkx
 scipy
+pyvis
+plotly
